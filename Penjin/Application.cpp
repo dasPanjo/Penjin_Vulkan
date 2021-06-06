@@ -1,46 +1,96 @@
 #include "Application.h"
 #include <iostream>
+#include <vector>
 
-Application* Application::instance = nullptr;
+#include "glm/vec4.hpp"
+#include "glm/mat4x4.hpp"
 
-Application::Application()
-	: quit(false)
-{
-}
 
-void Application::Init(std::string title, int width, int height, bool fullscreen)
-{
-	InitWindow(title, width, height, fullscreen);
+namespace Penjin {
 
-	Start();
-	while (!quit)
-	{
-		Tick();
-	}
-	Cleanup();
-}
+    Application* Application::instance = nullptr;
 
-void Application::InitWindow(std::string title, int width, int height, bool fullscreen)
-{
-    glfwInit();
-
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Vulkan window", nullptr, nullptr);
-
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-    std::cout << extensionCount << " extensions supported\n";
-
-    glm::mat4 matrix;
-    glm::vec4 vec;
-    auto test = matrix * vec;
-
-    while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
+    Application::Application(std::string title, int width, int height)
+        : quit(false),
+        window(nullptr),
+        title(title),
+        width(width),
+        height(height)
+    {
     }
 
-    glfwDestroyWindow(window);
+    Application::~Application() {
 
-    glfwTerminate();
+        glfwDestroyWindow(window);
+        glfwTerminate();
+
+        if(window) 
+            delete window;
+
+        Application::DeleteInstance();
+    }
+    
+    int Application::Run() {
+        int result = EXIT_SUCCESS;
+        try 
+        {
+            if (!Init()) 
+            {
+                throw new std::exception("Unknown initialization error!");
+            }
+
+            Start();
+            while (!quit)
+            {
+                if (!glfwWindowShouldClose(window))
+                    glfwPollEvents();
+                else {
+                    Quit();
+                    break;
+                }
+                Tick();
+            }
+        }
+        catch (const std::exception &e) 
+        {
+            std::cerr << e.what() << std::endl;
+            auto c = getchar();
+            result = EXIT_FAILURE;
+        }
+        Cleanup();
+        return result;
+    }
+
+    bool Application::Init()
+    {
+        if (!InitWindow(width, height))
+            return false;
+        if (!InitVulkan())
+            return false;
+        return true;
+    }
+
+    bool Application::InitWindow(int width, int height)
+    {
+        glfwInit();
+
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+        this->window = glfwCreateWindow(width, height, this->title.c_str(), nullptr, nullptr);
+        if (this->window == nullptr)
+            return false;
+
+        uint32_t extensionCount = 0;
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+        std::cout << extensionCount << " extensions supported\n";
+
+        return true;
+    }
+
+    bool Application::InitVulkan()
+    {
+        return true;
+    }
+
 }

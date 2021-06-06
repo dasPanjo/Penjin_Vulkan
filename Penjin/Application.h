@@ -1,30 +1,51 @@
 #pragma once
 #include <string>
 #include <GLFW/glfw3.h>
-#include "glm/vec4.hpp"
-#include "glm/mat4x4.hpp"
 
-class Application
-{
-public:
+#include <vulkan/vulkan.h>
 
-	Application();
-	virtual ~Application() { Application::DeleteInstance(); }
+namespace Penjin {
+	class Application
+	{
+	public:
 
-	static void DeleteInstance() { if (instance) { delete instance; } }
+		Application(std::string title, int width, int height);
+		virtual ~Application();
+		static void DeleteInstance() { if (instance) { delete instance; } }
 
-	virtual void Init(std::string title, int width, int height, bool fullscreen);
+		virtual int Run();
+		inline virtual void Quit() { quit = true; }
 
-	virtual void Start() abstract;
-	virtual void Tick() abstract;
-	virtual void Cleanup() abstract;
+		Application* GetInstance() const { return instance; }
 
-	inline virtual void Quit() { quit = true; }
+	protected:
+		/**Absract methods **/
+		virtual void Start() abstract;
+		virtual void Tick() abstract;
+		virtual void Cleanup() abstract;
 
-protected:
-	virtual void InitWindow(std::string title, int width, int height, bool fullscreen);
+		/**Init**/
+		virtual bool Init();
+		virtual bool InitWindow(int width, int height);
+		virtual bool InitVulkan();
 
-	static Application* instance;
-	bool quit;
+		/**Instance**/
+		static Application* instance;
 
-};
+		/**Window settings**/
+		std::string title;
+		int width;
+		int height;
+
+		/**GLFW**/
+		GLFWwindow* window;
+
+		/**Vulkan**/
+		VkApplicationInfo vkAppInfo;
+		VkInstanceCreateInfo vkInstanceCreateInfo;
+
+		/**Application status**/
+		bool quit;
+
+	};
+}

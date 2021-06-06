@@ -1,34 +1,28 @@
 #include "Application3D.h"
 #include <iostream>
 
-
-
-Application3D::Application3D()
-	:counter(0)
+Application3D::Application3D(std::string title, int width, int height) :
+	Application(title, width, height)
 {
 }
 
-Application3D::~Application3D()
+
+int Application3D::Run(std::string title, int width, int height)
 {
-	Cleanup();
+	DeleteInstance(); 
+	instance = new Application3D(title, width, height);
+	return instance->Run();
 }
 
 void Application3D::Start()
 {
-	std::cout << "Hello ";
 }
 
 void Application3D::Tick()
 {
-	counter++;
-	std::cout << " World" << std::endl;
-	getchar();
-	if (counter > 3)
-		Quit();
 }
 
 void Application3D::Cleanup()
 {
-	std::cout << "Bye!";
-	getchar();
+	std::cout << "Cleanup!";
 }

@@ -21,6 +21,11 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+GameLogic/[Dd]ebug/
+GameLogic/[Rr]eleases/
+Penjin/[Dd]ebug/
+Penjin/[Rr]eleases/
+Penjin_Export/
 x64/
 x86/
 [Aa][Rr][Mm]/

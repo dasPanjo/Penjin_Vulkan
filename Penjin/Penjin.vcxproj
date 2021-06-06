@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(ProjectName)_Export\Libs\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(ProjectName)_Export\$(Configuration)\</OutDir>
     <IncludePath>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Vulkan\Include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Projects\C++\Penjin_Vulkan\Dependencies\GLFW\lib;$(SolutionDir)Dependencies\Vulkan\Lib32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -163,6 +163,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <FxCompile Include="Shaders\SimpleShader.shader">
+      <FileType>CppCode</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
