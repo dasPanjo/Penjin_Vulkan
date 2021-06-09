@@ -165,6 +165,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogLevel.h" />
+    <ClInclude Include="VulkanLogger.h" />
     <ClInclude Include="VulkanManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClCompile Include="ApplicationWindow.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="VulkanLogger.cpp" />
     <ClCompile Include="VulkanManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

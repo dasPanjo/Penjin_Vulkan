@@ -57,6 +57,9 @@
     <ClInclude Include="ApplicationWindow.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="VulkanLogger.h">
+      <Filter>Header Files\Logs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationWindow.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="VulkanLogger.cpp">
+      <Filter>Source Files\Logs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

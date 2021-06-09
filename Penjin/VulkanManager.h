@@ -15,6 +15,7 @@ namespace Penjin
 	private:
 		static VkInstance instance;
 		static VkDevice device;
+		static VkPhysicalDevice physicalDevice;
 
 		static uint32_t queueFamilyIndex;
 		static uint32_t queueCount;
@@ -24,10 +25,7 @@ namespace Penjin
 
 		static uint32_t GetPhysicalDeviceCount();
 		static VkPhysicalDevice* GetPhysicalDevices(uint32_t amountPhysicalDevices);
-		static void FindQueueFamily(VkPhysicalDevice device);
-
-		static void PrintLayerInfo(VkLayerProperties layerProperties);
-		static void PrintDeviceInfo(VkPhysicalDevice physicalDevice);
+		static void FindQueueFamily();
 
 	};
 }
