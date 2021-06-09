@@ -16,6 +16,7 @@ namespace Penjin
 		static VkInstance instance;
 		static VkDevice device;
 		static VkPhysicalDevice physicalDevice;
+		static VkSurfaceKHR surface;
 
 		static uint32_t queueFamilyIndex;
 		static uint32_t queueCount;

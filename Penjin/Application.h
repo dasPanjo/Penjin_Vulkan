@@ -15,7 +15,8 @@ namespace Penjin {
 		virtual int Run();
 		inline virtual void Quit() { quit = true; }
 
-		Application* GetInstance() const { return instance; }
+		static Application* GetInstance() { return instance; }
+		ApplicationWindow* GetWindow() const { return window; }
 
 	protected:
 		/**Absract methods **/

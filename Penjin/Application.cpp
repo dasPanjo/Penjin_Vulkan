@@ -5,6 +5,7 @@
 #include "glm/vec4.hpp"
 #include "glm/mat4x4.hpp"
 #include "VulkanManager.h"
+#include "Log.h"
 
 using namespace Penjin;
 
@@ -29,9 +30,8 @@ int Application::Run() {
 		Start();
 		while (!quit)
 		{
-			if (!glfwWindowShouldClose(window->GetHandle()))
-				glfwPollEvents();
-			else {
+			if(!window->Update())
+			{
 				Quit();
 				break;
 			}
@@ -40,7 +40,7 @@ int Application::Run() {
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		Log::Critical(e.what());
 		auto c = getchar();
 		result = EXIT_FAILURE;
 	}
@@ -50,6 +50,8 @@ int Application::Run() {
 
 void Penjin::Application::Cleanup()
 {
+	if (window != nullptr)
+		window->Close();
 	VulkanManager::Cleanup();
 }
 
@@ -60,14 +62,13 @@ bool Application::Init(int width, int height)
 		VulkanManager::Init(this->name, this->version);
 		return true;
 	}
-	catch (const std::exception& ex) {
-		std::cerr << ex.what() << std::endl;
+	catch (const std::exception& e) {
+		Log::Critical(e.what());
 	}
 	catch (...) {
-		std::cerr << "Unknown error during application initialization" << std::endl;
+		Log::Critical("Unknown error during application initialization");
 	}
-	if (this->window != nullptr)
-		this->window->Close();
+	Cleanup();
 	return false;
 }
 

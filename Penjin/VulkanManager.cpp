@@ -4,13 +4,14 @@
 #include <vector>
 #include "magic_enum.hpp"
 
+#include "Application.h"
 #include "VulkanLogger.h"
 #include "Log.h"
 
 
 namespace Penjin {
 
-	void AssertVulkan(VkResult result, std::string errorText)
+	void AssertResult(VkResult result, std::string errorText)
 	{
 		if (result != VkResult::VK_SUCCESS)
 			throw std::exception((errorText + " [Error code: " + std::to_string(result) + " (" + (std::string)magic_enum::enum_name(result) + ")]").c_str());
@@ -19,6 +20,7 @@ namespace Penjin {
 	VkInstance VulkanManager::instance{};
 	VkDevice VulkanManager::device{};
 	VkPhysicalDevice VulkanManager::physicalDevice{};
+	VkSurfaceKHR VulkanManager::surface{};
 
 	uint32_t VulkanManager::queueFamilyIndex = -1;
 	uint32_t VulkanManager::queueCount = 0;
@@ -36,9 +38,15 @@ namespace Penjin {
 
 	void VulkanManager::Cleanup()
 	{
-		vkDeviceWaitIdle(VulkanManager::device);
-		vkDestroyDevice(VulkanManager::device, nullptr);
-		vkDestroyInstance(VulkanManager::instance, nullptr);
+		if (VulkanManager::device != nullptr) {
+			vkDeviceWaitIdle(VulkanManager::device);
+			vkDestroyDevice(VulkanManager::device, nullptr);
+		}
+		if (VulkanManager::instance != nullptr)
+		{
+			vkDestroySurfaceKHR(VulkanManager::instance, VulkanManager::surface, nullptr);
+			vkDestroyInstance(VulkanManager::instance, nullptr);
+		}
 	}
 
 	void VulkanManager::CreateInstance(std::string name, uint32_t version)
@@ -55,6 +63,9 @@ namespace Penjin {
 			"VK_LAYER_KHRONOS_validation",
 		};
 
+		uint32_t extensionsCount = 0;
+		auto extensions = glfwGetRequiredInstanceExtensions(&extensionsCount);
+
 		VkInstanceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pNext = nullptr;
@@ -62,11 +73,14 @@ namespace Penjin {
 		createInfo.pApplicationInfo = &appInfo;
 		createInfo.enabledLayerCount = validationLayers.size();
 		createInfo.ppEnabledLayerNames = validationLayers.data();
-		createInfo.enabledExtensionCount = 0;
-		createInfo.ppEnabledExtensionNames = nullptr;
+		createInfo.enabledExtensionCount = extensionsCount;
+		createInfo.ppEnabledExtensionNames = extensions;
 
 		VkResult result = vkCreateInstance(&createInfo, nullptr, &VulkanManager::instance);
-		AssertVulkan(result, "Unable to create vkIntance");
+		AssertResult(result, "Unable to create vkIntance");
+
+		result = glfwCreateWindowSurface(VulkanManager::instance, Application::GetInstance()->GetWindow()->GetHandle(), nullptr, &VulkanManager::surface);
+		AssertResult(result, "Unable to CreateWindowSurface");
 
 	}
 
@@ -74,7 +88,7 @@ namespace Penjin {
 	{
 		uint32_t physicalDeviceCount = 0;
 		VkResult result = vkEnumeratePhysicalDevices(VulkanManager::instance, &physicalDeviceCount, nullptr);
-		AssertVulkan(result, "Unable to fetch amount of physical devices.");
+		AssertResult(result, "Unable to fetch amount of physical devices.");
 		if (physicalDeviceCount <= 0)
 			throw std::exception(("VulkanManager::GetPhysicalDeviceCount() returned " + std::to_string(physicalDeviceCount)).c_str());
 		return physicalDeviceCount;
@@ -84,7 +98,7 @@ namespace Penjin {
 	{
 		VkPhysicalDevice* physicalDevices = new VkPhysicalDevice[amountPhysicalDevices];
 		VkResult result = vkEnumeratePhysicalDevices(VulkanManager::instance, &amountPhysicalDevices, physicalDevices);
-		AssertVulkan(result, "Unable to fetch " + std::to_string(amountPhysicalDevices) + " physical devices");
+		AssertResult(result, "Unable to fetch " + std::to_string(amountPhysicalDevices) + " physical devices");
 		return physicalDevices;
 	}
 
@@ -159,7 +173,7 @@ namespace Penjin {
 		VkPhysicalDeviceFeatures deviceFeatures = { VK_FALSE };
 		deviceCreateInfo.pEnabledFeatures = &deviceFeatures;
 		VkResult result = vkCreateDevice(VulkanManager::physicalDevice, &deviceCreateInfo, nullptr, &VulkanManager::device);
-		AssertVulkan(result, "Unable to create device");
+		AssertResult(result, "Unable to create device");
 
 	}
 

@@ -18,6 +18,14 @@ ApplicationWindow::~ApplicationWindow()
         delete window;
 }
 
+bool Penjin::ApplicationWindow::Update()
+{
+    if (glfwWindowShouldClose(window))
+        return false;
+    glfwPollEvents();
+    return true;
+}
+
 void Penjin::ApplicationWindow::Close()
 {
     if(this->window != nullptr)
@@ -47,7 +55,6 @@ int Penjin::ApplicationWindow::GetHeight()
 void ApplicationWindow::InitWindow(std::string title, int width, int height)
 {
     glfwInit();
-
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
