@@ -7,11 +7,11 @@ using namespace Penjin;
 class Application3D : public Application
 {
 public:
-	Application3D(std::string title, int width, int height);
+	static int Run(std::string title, uint32_t version, int width, int height);
+
+	Application3D(std::string title, uint32_t version);
 	virtual ~Application3D() override { Application::~Application(); }
 
-	static int Run(std::string title, int width, int height);
-	
 	virtual void Start() override;
 	virtual void Tick() override;
 	virtual void Cleanup() override;

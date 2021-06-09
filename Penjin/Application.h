@@ -1,18 +1,17 @@
 #pragma once
-#include <string>
-#include <GLFW/glfw3.h>
+#include "ApplicationWindow.h"
 
-#include <vulkan/vulkan.h>
+#include <string>
 
 namespace Penjin {
 	class Application
 	{
 	public:
-
-		Application(std::string title, int width, int height);
+		Application(std::string name, uint32_t version);
 		virtual ~Application();
 		static void DeleteInstance() { if (instance) { delete instance; } }
 
+		virtual bool Init(int width, int height);
 		virtual int Run();
 		inline virtual void Quit() { quit = true; }
 
@@ -22,27 +21,18 @@ namespace Penjin {
 		/**Absract methods **/
 		virtual void Start() abstract;
 		virtual void Tick() abstract;
-		virtual void Cleanup() abstract;
+		virtual void Cleanup();
 
-		/**Init**/
-		virtual bool Init();
-		virtual bool InitWindow(int width, int height);
-		virtual bool InitVulkan();
 
 		/**Instance**/
 		static Application* instance;
 
-		/**Window settings**/
-		std::string title;
-		int width;
-		int height;
+		/**Application information**/
+		std::string name;
+		uint32_t version;
 
-		/**GLFW**/
-		GLFWwindow* window;
-
-		/**Vulkan**/
-		VkApplicationInfo vkAppInfo;
-		VkInstanceCreateInfo vkInstanceCreateInfo;
+		/**Window**/
+		ApplicationWindow* window;
 
 		/**Application status**/
 		bool quit;
