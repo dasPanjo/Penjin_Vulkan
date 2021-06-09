@@ -165,7 +165,6 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="LogLevel.h" />
-    <ClInclude Include="magic_enum.hpp" />
     <ClInclude Include="VulkanManager.h" />
   </ItemGroup>
   <ItemGroup>

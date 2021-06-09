@@ -16,6 +16,24 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{8ab5b356-aa33-411f-906d-84a714a3f95f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Files">
+      <UniqueIdentifier>{8420f748-4335-4b5d-9ead-569f3977a9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logs">
+      <UniqueIdentifier>{86d3ec90-16a7-4a85-af79-1d2cf4cdb48e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Files">
+      <UniqueIdentifier>{363de40a-4057-433e-a8db-103d4de9a6ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logs">
+      <UniqueIdentifier>{0a21dbf8-701a-4384-954f-451dc8e610ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{0ef56592-29e5-47f0-b2fb-bd3a2297fd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{2f09b668-64e8-43ea-a869-b130b6ac55ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -24,40 +42,37 @@
     <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VulkanManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="magic_enum.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Log.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Logs</Filter>
     </ClInclude>
     <ClInclude Include="File.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Files</Filter>
     </ClInclude>
     <ClInclude Include="LogLevel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Logs</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationWindow.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VulkanManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="File.cpp">
+      <Filter>Source Files\Files</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Logs</Filter>
     </ClCompile>
-    <ClCompile Include="File.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="VulkanManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationWindow.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
