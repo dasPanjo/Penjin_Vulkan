@@ -13,7 +13,6 @@ namespace Penjin {
 
 	LogLevel Log::LogLevelConsole = LogLevel::Info;
 	LogLevel Log::LogLevelFile = LogLevel::Error;
-	Log::TextStream Log::Text;
 
 	void Log::Message(std::string message, bool supressFile) {
 		std::string outputMessage = "[Info] " + message;
